@@ -1960,6 +1960,8 @@ abstract class WebChromeClientFlutterApi {
 
   void dispose(int instanceId);
   void onProgressChanged(int instanceId, int webViewInstanceId, int progress);
+  Future<List<String?>> onShowFileChooser(
+      int instanceId, int webViewInstanceId);
   static void setup(WebChromeClientFlutterApi? api,
       {BinaryMessenger? binaryMessenger}) {
     {
@@ -2005,6 +2007,30 @@ abstract class WebChromeClientFlutterApi {
           api.onProgressChanged(
               arg_instanceId!, arg_webViewInstanceId!, arg_progress!);
           return;
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.WebChromeClientFlutterApi.onShowFileChooser',
+          codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+              'Argument for dev.flutter.pigeon.WebChromeClientFlutterApi.onShowFileChooser was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final int? arg_instanceId = (args[0] as int?);
+          assert(arg_instanceId != null,
+              'Argument for dev.flutter.pigeon.WebChromeClientFlutterApi.onShowFileChooser was null, expected non-null int.');
+          final int? arg_webViewInstanceId = (args[1] as int?);
+          assert(arg_webViewInstanceId != null,
+              'Argument for dev.flutter.pigeon.WebChromeClientFlutterApi.onShowFileChooser was null, expected non-null int.');
+          final List<String?> output = await api.onShowFileChooser(
+              arg_instanceId!, arg_webViewInstanceId!);
+          return output;
         });
       }
     }

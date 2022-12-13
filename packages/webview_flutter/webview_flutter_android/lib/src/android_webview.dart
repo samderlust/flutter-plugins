@@ -962,6 +962,10 @@ class WebChromeClient extends JavaObject {
   WebChromeClient copy() {
     return WebChromeClient.detached(onProgressChanged: onProgressChanged);
   }
+
+  Future<List<String>> onShowFileChooser(WebView webView) async {
+    return [];
+  }
 }
 
 /// Encompasses parameters to the [WebViewClient.requestLoading] method.

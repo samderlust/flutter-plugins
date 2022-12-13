@@ -16,6 +16,7 @@ import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 /// Optional callback invoked when a web view is first created. [controller] is
 /// the [WebViewController] for the created web view.
 typedef WebViewCreatedCallback = void Function(WebViewController controller);
+typedef ShowFileChooserCallBack = Future<List<String>> Function();
 
 /// Information about a navigation action that is about to be executed.
 class NavigationRequest {
@@ -92,6 +93,7 @@ class WebView extends StatefulWidget {
     this.gestureNavigationEnabled = false,
     this.userAgent,
     this.zoomEnabled = true,
+    this.onShowFileChooser,
     this.initialMediaPlaybackPolicy =
         AutoMediaPlaybackPolicy.require_user_action_for_all_media_types,
     this.allowsInlineMediaPlayback = false,
@@ -234,6 +236,9 @@ class WebView extends StatefulWidget {
 
   /// Invoked when a page is loading.
   final PageLoadingCallback? onProgress;
+
+  /// Invoked when a page is loading.
+  final ShowFileChooserCallBack? onShowFileChooser;
 
   /// Invoked when a web resource has failed to load.
   ///
@@ -479,6 +484,14 @@ class _PlatformCallbacksHandler implements WebViewPlatformCallbacksHandler {
     if (_widget.onProgress != null) {
       _widget.onProgress!(progress);
     }
+  }
+
+  @override
+  Future<List<String>> onShowFileChooser() async {
+    if (_widget.onShowFileChooser != null) {
+      return await _widget.onShowFileChooser!();
+    }
+    return [];
   }
 
   @override
